@@ -694,11 +694,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Eduardo Larios\\Documents\\Code\\Multiprocessors\\Final Project\\CSharp\\CFG\\CFG.csproj",
+      "projectUniqueName": "C:\\Users\\Eduardo Larios\\Documents\\Code\\Multiprocessors\\QuicksortComparison\\CSharp\\CFG\\CFG.csproj",
       "projectName": "CFG",
-      "projectPath": "C:\\Users\\Eduardo Larios\\Documents\\Code\\Multiprocessors\\Final Project\\CSharp\\CFG\\CFG.csproj",
+      "projectPath": "C:\\Users\\Eduardo Larios\\Documents\\Code\\Multiprocessors\\QuicksortComparison\\CSharp\\CFG\\CFG.csproj",
       "packagesPath": "C:\\Users\\Eduardo Larios\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Eduardo Larios\\Documents\\Code\\Multiprocessors\\Final Project\\CSharp\\CFG\\obj\\",
+      "outputPath": "C:\\Users\\Eduardo Larios\\Documents\\Code\\Multiprocessors\\QuicksortComparison\\CSharp\\CFG\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

@@ -1,8 +1,20 @@
 import java.util.Scanner;
 import java.util.Random;
 
-// Java program for the implementation of QuickSort 
-class QuickSort {
+class QuickSortMulti implements Runnable {
+    int[] arr;
+    int start, end;
+
+    /* QuickSorter Constructor */
+    QuickSortMulti(int[] arr, int start, int end) {
+        this.arr = arr;
+        this.start = start;
+        this.end = end;
+    }
+
+    public void run() {
+        quickSort(this.arr, this.start, this.end);
+    }
 
     /* A utility function to fill an array of size n */
     static void fillArray(int arr[], int size) {
@@ -34,10 +46,10 @@ class QuickSort {
      * its correct position in sorted array, and places all smaller (smaller than
      * pivot) to left of pivot and all greater elements to right of pivot
      */
-    static int partition(int arr[], int low, int end) {
+    static int partition(int arr[], int start, int end) {
         int pivot = arr[end];
-        int i = (low - 1); // index of smaller element
-        for (int j = low; j < end; j++) {
+        int i = (start - 1); // index of smaller element
+        for (int j = start; j < end; j++) {
             // If current element is smaller than or
             // equal to pivot
             if (arr[j] <= pivot) {
@@ -58,24 +70,15 @@ class QuickSort {
         return i + 1;
     }
 
-    /*
-     * The main function that implements QuickSort() arr[] --> Array to be sorted,
-     * low --> Starting index, end --> Ending index
-     */
-    static void sortArray(int arr[], int start, int end) {
-        if (start < end) {
-            // pi is partitioning index, arr[pi] is now at right place
-            int pi = partition(arr, start, end);
-
-            // Recursively sort elements before
-            // partition and after partition
-            sortArray(arr, start, pi - 1);
-            sortArray(arr, pi + 1, end);
-        }
+    static void quickSort(int[] arr, int start, int end) {
+        if (end <= start)
+            return;
+        int pi = partition(arr, start, end);
+        quickSort(arr, start, pi - 1);
+        quickSort(arr, pi + 1, end);
     }
 
-    // Driver program to run the sort
-    public static void main(String args[]) {
+    public static void main(String[] args) {
         var keyboard = new Scanner(System.in);
 
         long startTime, stopTime;
@@ -114,7 +117,22 @@ class QuickSort {
             fillArray(arr, n);
 
             startTime = System.currentTimeMillis();
-            sortArray(arr, 0, n - 1);
+            int mid = partition(arr, 0, n - 1);
+            Thread left = new Thread(new QuickSorter(arr, 0, mid - 1));
+            Thread right = new Thread(new QuickSorter(arr, mid + 1, n - 1));
+
+            left.start();
+            right.start();
+
+            try {
+                left.join();
+                right.join();
+            }
+
+            catch (InterruptedException e) {
+                System.out.println(e);
+            }
+
             stopTime = System.currentTimeMillis();
             acum += (stopTime - startTime);
         }
