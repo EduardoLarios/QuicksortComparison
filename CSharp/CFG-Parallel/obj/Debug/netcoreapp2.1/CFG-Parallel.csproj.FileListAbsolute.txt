@@ -1,0 +1,11 @@
+f:\Eduardo\Documents\Code\Multiprocessors\QuicksortComparison\CSharp\CFG-Parallel\bin\Debug\netcoreapp2.1\CFG-Parallel.deps.json
+f:\Eduardo\Documents\Code\Multiprocessors\QuicksortComparison\CSharp\CFG-Parallel\bin\Debug\netcoreapp2.1\CFG-Parallel.runtimeconfig.json
+f:\Eduardo\Documents\Code\Multiprocessors\QuicksortComparison\CSharp\CFG-Parallel\bin\Debug\netcoreapp2.1\CFG-Parallel.runtimeconfig.dev.json
+f:\Eduardo\Documents\Code\Multiprocessors\QuicksortComparison\CSharp\CFG-Parallel\bin\Debug\netcoreapp2.1\CFG-Parallel.dll
+f:\Eduardo\Documents\Code\Multiprocessors\QuicksortComparison\CSharp\CFG-Parallel\bin\Debug\netcoreapp2.1\CFG-Parallel.pdb
+f:\Eduardo\Documents\Code\Multiprocessors\QuicksortComparison\CSharp\CFG-Parallel\obj\Debug\netcoreapp2.1\CFG-Parallel.csprojAssemblyReference.cache
+f:\Eduardo\Documents\Code\Multiprocessors\QuicksortComparison\CSharp\CFG-Parallel\obj\Debug\netcoreapp2.1\CFG-Parallel.csproj.CoreCompileInputs.cache
+f:\Eduardo\Documents\Code\Multiprocessors\QuicksortComparison\CSharp\CFG-Parallel\obj\Debug\netcoreapp2.1\CFG-Parallel.AssemblyInfoInputs.cache
+f:\Eduardo\Documents\Code\Multiprocessors\QuicksortComparison\CSharp\CFG-Parallel\obj\Debug\netcoreapp2.1\CFG-Parallel.AssemblyInfo.cs
+f:\Eduardo\Documents\Code\Multiprocessors\QuicksortComparison\CSharp\CFG-Parallel\obj\Debug\netcoreapp2.1\CFG-Parallel.dll
+f:\Eduardo\Documents\Code\Multiprocessors\QuicksortComparison\CSharp\CFG-Parallel\obj\Debug\netcoreapp2.1\CFG-Parallel.pdb

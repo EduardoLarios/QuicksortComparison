@@ -20,3 +20,14 @@ C:\Users\Eduardo Larios\Documents\Code\Multiprocessors\QuicksortComparison\CShar
 C:\Users\Eduardo Larios\Documents\Code\Multiprocessors\QuicksortComparison\CSharp\CFG\obj\Debug\netcoreapp2.1\CFG.AssemblyInfo.cs
 C:\Users\Eduardo Larios\Documents\Code\Multiprocessors\QuicksortComparison\CSharp\CFG\obj\Debug\netcoreapp2.1\CFG.dll
 C:\Users\Eduardo Larios\Documents\Code\Multiprocessors\QuicksortComparison\CSharp\CFG\obj\Debug\netcoreapp2.1\CFG.pdb
+F:\Eduardo\Documents\Code\Multiprocessors\QuicksortComparison\CSharp\CFG\bin\Debug\netcoreapp2.1\CFG.deps.json
+F:\Eduardo\Documents\Code\Multiprocessors\QuicksortComparison\CSharp\CFG\bin\Debug\netcoreapp2.1\CFG.runtimeconfig.json
+F:\Eduardo\Documents\Code\Multiprocessors\QuicksortComparison\CSharp\CFG\bin\Debug\netcoreapp2.1\CFG.runtimeconfig.dev.json
+F:\Eduardo\Documents\Code\Multiprocessors\QuicksortComparison\CSharp\CFG\bin\Debug\netcoreapp2.1\CFG.dll
+F:\Eduardo\Documents\Code\Multiprocessors\QuicksortComparison\CSharp\CFG\bin\Debug\netcoreapp2.1\CFG.pdb
+F:\Eduardo\Documents\Code\Multiprocessors\QuicksortComparison\CSharp\CFG\obj\Debug\netcoreapp2.1\CFG.csprojAssemblyReference.cache
+F:\Eduardo\Documents\Code\Multiprocessors\QuicksortComparison\CSharp\CFG\obj\Debug\netcoreapp2.1\CFG.csproj.CoreCompileInputs.cache
+F:\Eduardo\Documents\Code\Multiprocessors\QuicksortComparison\CSharp\CFG\obj\Debug\netcoreapp2.1\CFG.AssemblyInfoInputs.cache
+F:\Eduardo\Documents\Code\Multiprocessors\QuicksortComparison\CSharp\CFG\obj\Debug\netcoreapp2.1\CFG.AssemblyInfo.cs
+F:\Eduardo\Documents\Code\Multiprocessors\QuicksortComparison\CSharp\CFG\obj\Debug\netcoreapp2.1\CFG.dll
+F:\Eduardo\Documents\Code\Multiprocessors\QuicksortComparison\CSharp\CFG\obj\Debug\netcoreapp2.1\CFG.pdb

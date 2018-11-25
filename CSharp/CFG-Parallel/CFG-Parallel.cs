@@ -2,13 +2,14 @@
 using System;
 using System.Diagnostics;
 using System.Threading;
+using System.Threading.Tasks;
 
-namespace CFG
+namespace CFG_Parallel
 {
-    class GFG
+    public static class GFG_Parallel
     {
         /* A utility function to fill an array of size n */
-        static void fillArray(int[] arr, int size)
+        public static void FillArray(int[] arr, int size)
         {
             var generator = new Random();
 
@@ -19,7 +20,7 @@ namespace CFG
         }
 
         /* A utility function to print array of size n */
-        static void printArray(int[] arr, int size, string banner, int row)
+        public static void PrintArray(int[] arr, int size, string banner, int row)
         {
             Console.WriteLine("\n{0}\n", banner);
 
@@ -44,7 +45,7 @@ namespace CFG
         smaller (smaller than pivot) to left of 
         pivot and all greater elements to right 
         of pivot */
-        static int partition(int[] arr, int low, int high)
+        private static int Partition(int[] arr, int low, int high)
         {
             int pivot = arr[high];
 
@@ -77,19 +78,30 @@ namespace CFG
         arr[] --> Array to be sorted, 
         low --> Starting index, 
         high --> Ending index */
-        static void quickSort(int[] arr, int low, int high)
+        public static void QuickSort(int[] arr, int low, int high)
         {
             if (low < high)
             {
+                if(high - low < 10000)
+                {
+                    /* pi is partitioning index, arr[pi] is 
+                    now at right place */
+                    int pi = Partition(arr, low, high);
 
-                /* pi is partitioning index, arr[pi] is 
-                now at right place */
-                int pi = partition(arr, low, high);
+                    // Recursively sort elements before 
+                    // partition and after partition 
+                    QuickSort(arr, low, pi - 1);
+                    QuickSort(arr, pi + 1, high);
+                }
 
-                // Recursively sort elements before 
-                // partition and after partition 
-                quickSort(arr, low, pi - 1);
-                quickSort(arr, pi + 1, high);
+                else
+                {
+                    int pi = Partition(arr, low, high);
+                    Parallel.Invoke(
+                        delegate { QuickSort(arr, low, pi - 1);  },
+                        delegate { QuickSort(arr, pi + 1, high); }
+                    );
+                }
             }
         }
 
@@ -102,31 +114,27 @@ namespace CFG
             while (true)
             {
                 Console.WriteLine("Input an array length to sort: ");
-                if (int.TryParse(Console.ReadLine(), out n))
+                if (int.TryParse(Console.ReadLine(), out n) && n > 0)
                 {
-                    if (n > 0)
-                        break;
+                    break;
                 }
-
             }
 
             while (true)
             {
                 Console.WriteLine("Input number of iterations: ");
-                if (int.TryParse(Console.ReadLine(), out iter))
+                if (int.TryParse(Console.ReadLine(), out iter) && iter > 0)
                 {
-                    if (iter > 0)
-                        break;
+                    break;
                 }
             }
 
             while (true)
             {
                 Console.WriteLine("Input a row lenght: ");
-                if (int.TryParse(Console.ReadLine(), out row))
+                if (int.TryParse(Console.ReadLine(), out row) && row > 0)
                 {
-                    if (row > 0)
-                        break;
+                    break;
                 }
             }
 
@@ -135,14 +143,16 @@ namespace CFG
             stopwatch.Start();
             for (int i = 0; i < iter; i++)
             {
-                fillArray(arr, n);
-                quickSort(arr, 0, n - 1);
+                FillArray(arr, n);
+
+                QuickSort(arr, 0, n - 1);
             }
             stopwatch.Stop();
 
             var ts = stopwatch.Elapsed;
-            printArray(arr, n, "Sorted Array: ", row);
-            Console.WriteLine("\nAverage Time Taken: {0} ", (ts / iter));
+            PrintArray(arr, n, "Sorted Array: ", row);
+            Console.WriteLine("\nAverage Time Taken: {0}", (ts / iter));
+            Console.ReadLine();
         }
     }
 }

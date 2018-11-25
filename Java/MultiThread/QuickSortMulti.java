@@ -118,8 +118,8 @@ class QuickSortMulti implements Runnable {
 
             startTime = System.currentTimeMillis();
             int mid = partition(arr, 0, n - 1);
-            Thread left = new Thread(new QuickSorter(arr, 0, mid - 1));
-            Thread right = new Thread(new QuickSorter(arr, mid + 1, n - 1));
+            Thread left = new Thread(new QuickSortMulti(arr, 0, mid - 1));
+            Thread right = new Thread(new QuickSortMulti(arr, mid + 1, n - 1));
 
             left.start();
             right.start();

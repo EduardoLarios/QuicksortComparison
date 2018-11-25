@@ -1,0 +1,35 @@
+Testing Parameters
+N = 300,000 values
+Iterations = 10
+
+Parallel OpenMP -O3
+Average Time taken: 2318.7096 ms
+Speedup: 3.6881x
+
+Serial OpenMP -O3
+Average Time Taken: 8552.7953 ms
+
+Serial Java
+Average Time Taken: 815.9000 ms
+
+Parallel Java (2)Threads
+Average Time Taken: 622.1000 ms
+Speedup: 1.3115x
+
+Parallel Java Fork-Join
+Average Time Taken: 18.8000 ms
+Speedup: 43.3989x
+
+Serial NVIDIA Cuda
+Average Time Taken: 8642.2543 ms
+
+Parallel NVIDIA Cuda
+Average Time Taken: 13500.900 ms
+Speedup: 0.6397x
+
+Serial C# .NET Core 2.1
+Average Time Taken: 4950.83 ms
+
+Parallel C# .NET Core 2.1
+Average Time Taken: 915.28 ms
+Speedup: 5.4098x
