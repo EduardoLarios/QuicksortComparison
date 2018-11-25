@@ -1,4 +1,5 @@
 /* C implementation QuickSort */
+/* Compile */
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>

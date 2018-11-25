@@ -520,10 +520,11 @@
       ]
     },
     "Microsoft.NETCore.Platforms/2.1.0": {
-      "sha512": "TT+QCi9LcxGTjBssH7S7n5+8DVcwfG4DYgXX7Dk7+BfZ4oVHj8Q0CbYk9glzAlHLsSt3bYzol+fOdra2iu6GOw==",
+      "sha512": "aSTPL94NloSiQVL5Len8wbjFKOnoAX/vOh3s3DF6g3c7GUUMLCDvnBhmA72M2iN2AedyA8hpr7m89kzSAKUnJQ==",
       "type": "package",
       "path": "microsoft.netcore.platforms/2.1.0",
       "files": [
+        ".nupkg.metadata",
         ".signature.p7s",
         "LICENSE.TXT",
         "THIRD-PARTY-NOTICES.TXT",
@@ -693,11 +694,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "f:\\Eduardo\\Documents\\Code\\Multiprocessors\\QuicksortComparison\\CSharp\\CFG\\CFG.csproj",
+      "projectUniqueName": "c:\\Users\\Eduardo Larios\\Documents\\Code\\Multiprocessors\\QuicksortComparison\\CSharp\\CFG\\CFG.csproj",
       "projectName": "CFG",
-      "projectPath": "f:\\Eduardo\\Documents\\Code\\Multiprocessors\\QuicksortComparison\\CSharp\\CFG\\CFG.csproj",
+      "projectPath": "c:\\Users\\Eduardo Larios\\Documents\\Code\\Multiprocessors\\QuicksortComparison\\CSharp\\CFG\\CFG.csproj",
       "packagesPath": "C:\\Users\\Eduardo Larios\\.nuget\\packages\\",
-      "outputPath": "f:\\Eduardo\\Documents\\Code\\Multiprocessors\\QuicksortComparison\\CSharp\\CFG\\obj\\",
+      "outputPath": "c:\\Users\\Eduardo Larios\\Documents\\Code\\Multiprocessors\\QuicksortComparison\\CSharp\\CFG\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

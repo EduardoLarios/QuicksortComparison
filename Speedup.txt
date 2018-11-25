@@ -21,11 +21,11 @@ Average Time Taken: 18.8000 ms
 Speedup: 43.3989x
 
 Serial NVIDIA Cuda
-Average Time Taken: 8642.2543 ms
+Average Time Taken: 5130.8263 ms
 
 Parallel NVIDIA Cuda
-Average Time Taken: 13500.900 ms
-Speedup: 0.6397x
+Average Time taken: 209.0601 ms
+Speedup: 24.5454x
 
 Serial C# .NET Core 2.1
 Average Time Taken: 4950.83 ms

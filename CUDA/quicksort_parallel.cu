@@ -1,21 +1,21 @@
-#include <time.h>
-#include <stdio.h>
-#include <stdlib.h>
+/* This program requires compute_35 architecture to call a global function recursively */
+/* Compile using the following arguments: nvcc -arch=sm_35 -rdc=true -o quicksort_parallel -lcudadevrt quicksort_parallel.cu*/ 
 #include <iostream>
-#include <string>
+#include <cstdio>
 #include "header.h"
 
-#define MAX_THREADS 128
+#define MAX_DEPTH 16
+#define SELECTION_SORT 32
 
 /* A utility function to fill an array of size n */
 void fillArray(int* arr, int size)
 {
     // Initializes random number generator
     time_t seed;
-    srand((unsigned) time(&seed));
+    srand((int) time(&seed));
 
     for (int i = 0; i < size; i++) {
-        arr[i] = rand() % 50;
+        arr[i] = rand() % 51;
     }
 }
 
@@ -42,77 +42,122 @@ void printArray(int* arr, int size, std::string banner, int row)
     printf("\n");
 }
 
-// Kernel function to sort array on GPU
-__global__ static void quickSort(int* arr, int n)
+// Selection sort used when depth gets too big or the number of elements drops
+// below a threshold.
+__device__ void selectionSort(int* arr, int left, int right)
 {
-    #define MAX_LEVELS 300
-
-    int pivot, left, right;
-    int idx = threadIdx.x + blockIdx.x * blockDim.x;
-    int start[MAX_LEVELS];
-    int end[MAX_LEVELS];
-
-    start[idx] = idx;
-    end[idx] = n - 1;
-    while (idx >= 0)
+    for (int i = left; i <= right; ++i)
     {
-        left = start[idx];
-        right = end[idx];
+        int min_val = arr[i];
+        int min_idx = i;
 
-        if (left < right)
+        // Find the smallest value in the range [left, right].
+        for (int j = i + 1; j <= right; ++j)
         {
-            pivot = arr[left];
-            while (left < right)
+            int val_j = arr[j];
+            if (val_j < min_val)
             {
-                while (arr[right] >= pivot && left < right)
-                {
-                    right--;
-                }
-
-                if (left < right)
-                    arr[left++] = arr[right];
-
-                while (arr[left] < pivot && left < right)
-                {
-                    left++;
-                }
-
-                if (left < right)
-                    arr[right--] = arr[left];
-            }
-
-            arr[left] = pivot;
-            start[idx + 1] = left + 1;
-            end[idx + 1] = end[idx];
-            end[idx++] = left;
-
-            if (end[idx] - start[idx] > end[idx - 1] - start[idx - 1])
-            {
-                // swap start[idx] and start[idx-1]
-                int tmp = start[idx];
-                start[idx] = start[idx - 1];
-                start[idx - 1] = tmp;
-
-                // swap end[idx] and end[idx-1]
-                tmp = end[idx];
-                end[idx] = end[idx - 1];
-                end[idx - 1] = tmp;
+                min_idx = j;
+                min_val = val_j;
             }
         }
 
-        else
+        // Swap the values.
+        if (i != min_idx)
         {
-            idx--;
+            arr[min_idx] = arr[i];
+            arr[i] = min_val;
         }
     }
 }
 
-// Driver program
-int main()
+// Very basic quicksort algorithm, recursively launching the next level.
+__global__ void quickSort(int* arr, int left, int right, int depth)
+{
+    // If we're too deep or there are few elements left, we use an selection sort
+    if (depth >= MAX_DEPTH || right - left <= SELECTION_SORT)
+    {
+        selectionSort(arr, left, right);
+        return;
+    }
+
+    int *lft_ptr = arr + left;
+    int *rgt_ptr = arr + right;
+    int pivot = arr[(left + right) / 2];
+
+    // Do the partitioning.
+    while (lft_ptr <= rgt_ptr)
+    {
+        // Find the next left-hand and right-hand values to swap
+        int lft_val = *lft_ptr;
+        int rgt_val = *rgt_ptr;
+
+        // Move the left pointer as long as the pointed element is smaller than the pivot.
+        while (lft_val < pivot)
+        {
+            lft_ptr++;
+            lft_val = *lft_ptr;
+        }
+
+        // Move the right pointer as long as the pointed element is larger than the pivot.
+        while (rgt_val > pivot)
+        {
+            rgt_ptr--;
+            rgt_val = *rgt_ptr;
+        }
+
+        // If the swap points are valid swap them
+        if (lft_ptr <= rgt_ptr)
+        {
+            *lft_ptr++ = rgt_val;
+            *rgt_ptr-- = lft_val;
+        }
+    }
+
+    // Now the recursive part
+    int nright = rgt_ptr - arr;
+    int nleft = lft_ptr - arr;
+
+    // Launch a new block to sort the left part.
+    if (left < (rgt_ptr - arr))
+    {
+        cudaStream_t s;
+        cudaStreamCreateWithFlags(&s, cudaStreamNonBlocking);
+        quickSort<<<1, 1, 0, s>>>(arr, left, nright, depth + 1);
+        cudaStreamDestroy(s);
+    }
+
+    // Launch a new block to sort the right part.
+    if ((lft_ptr - arr) < right)
+    {
+        cudaStream_t s1;
+        cudaStreamCreateWithFlags(&s1, cudaStreamNonBlocking);
+        quickSort<<<1, 1, 0, s1>>>(arr, nleft, right, depth + 1);
+        cudaStreamDestroy(s1);
+    }
+}
+
+// Call the quicksort kernel from the host.
+void runQuickSort(int* arr, int n)
+{
+    // Prepare CDP for the max depth 'MAX_DEPTH'.
+    cudaDeviceSetLimit(cudaLimitDevRuntimeSyncDepth, MAX_DEPTH);
+
+    // Launch on device
+    int left = 0;
+    int right = n - 1;
+    std::cout << "Launching kernel on the GPU" << std::endl;
+    quickSort<<<1, 1>>>(arr, left, right, 0);
+    cudaDeviceSynchronize();
+}
+
+// Main entry point.
+int main(int argc, char **argv)
 {
     int n = 0;
     int row = 0;
     int iter = 0;
+    double acum = 0;
 
     while(1)
     {
@@ -141,32 +186,60 @@ int main()
             break;
     }
 
-    int *arr; 
-    int *dev_arr;
-    int size = sizeof(int*) * n;
+    // Get device properties
+    int device_count = 0, device = -1;
+    cudaGetDeviceCount(&device_count);
+
+    for (int i = 0; i < device_count; ++i)
+    {
+        cudaDeviceProp properties;
+        cudaGetDeviceProperties(&properties, i);
+        if (properties.major > 3 || (properties.major == 3 && properties.minor >= 5))
+        {
+            device = i;
+            std::cout << "Running on GPU " << i << " (" << properties.name << ")" << std::endl;
+            break;
+        }
+        std::cout << "GPU " << i << " (" << properties.name << ") does not support CUDA Dynamic Parallelism" << std::endl;
+    }
+
+    if (device == -1)
+    {
+        std::cerr << "cdpSimpleQuicksort requires GPU devices with compute SM 3.5 or higher.  Exiting..." << std::endl;
+        exit(EXIT_SUCCESS);
+    }
+    cudaSetDevice(device);
+
+    // Create input array
+    int *h_arr = 0;
+    int *d_arr = 0;
+
+    // Allocate CPU memory.
+    h_arr = (int *)malloc(n * sizeof(int));
+
+    // Allocate GPU memory.
+    cudaMalloc((void **)&d_arr, n * sizeof(int));
     
-    arr = (int*) malloc(size);
-    cudaMalloc((void**)&dev_arr, size);
-    fillArray(arr, n);
 
-    const unsigned int THREADS_PER_BLOCK = 128;
-    double acum = 0;
-
-	for (int i = 0; i < iter; i++) {
-        cudaMemcpy(dev_arr, arr, size, cudaMemcpyHostToDevice);
+    for (int i = 0; i < iter; i++) {
+        fillArray(h_arr, n);
+        cudaMemcpy(d_arr, h_arr, n * sizeof(int), cudaMemcpyHostToDevice);
 
         start_timer();
-        quickSort<<<MAX_THREADS / THREADS_PER_BLOCK, MAX_THREADS / THREADS_PER_BLOCK, THREADS_PER_BLOCK>>>(dev_arr, n);
-        cudaThreadSynchronize();
+        // Execute
+        std::cout << "Running quicksort on " << n << " elements" << std::endl;
+        runQuickSort(d_arr, n);
 
-        cudaMemcpy(arr, dev_arr, size, cudaMemcpyDeviceToHost);
 		acum += stop_timer();
+        // Copy result back
+        cudaMemcpy(h_arr, d_arr, n * sizeof(int), cudaMemcpyDeviceToHost);
     }
-    
-    printArray(arr, n, "Sorted array: ", row);
-    printf("\nAverage Time taken: %.4lf ms\n", (acum / iter));
-    
-    cudaFree(dev_arr);
-    free(arr);
 
+    // Print result
+    printArray(h_arr, n, "Sorted Array: ", 20);
+    // Print time taken
+    printf("\nAverage Time taken: %.4lf ms\n", (acum / iter));
+
+    free(h_arr);
+    cudaFree(d_arr);
 }
