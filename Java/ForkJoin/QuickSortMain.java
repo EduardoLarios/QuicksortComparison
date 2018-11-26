@@ -80,7 +80,7 @@ public class QuickSortMain {
             acum += (stopTime - startTime);
         }
 
-        //printArray(arr, n, "Sorted Array: ", row);
+        printArray(arr, n, "Sorted Array: ", row);
         System.out.printf("\nAverage Time Taken: %.4f ms\n", (acum / iter));
 
         keyboard.close();

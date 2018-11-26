@@ -1,4 +1,6 @@
 /* C implementation QuickSort */
+/* Compile with: gcc -o3 -fopenmp -o parallel quicksort_parallel.c */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <omp.h>

@@ -2,12 +2,12 @@ Testing Parameters
 N = 300,000 values
 Iterations = 10
 
+Serial OpenMP -O3
+Average Time Taken: 8552.7953 ms
+
 Parallel OpenMP -O3
 Average Time taken: 2318.7096 ms
 Speedup: 3.6881x
-
-Serial OpenMP -O3
-Average Time Taken: 8552.7953 ms
 
 Serial Java
 Average Time Taken: 815.9000 ms

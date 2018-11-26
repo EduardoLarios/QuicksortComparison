@@ -1,4 +1,6 @@
 /* C implementation QuickSort */
+/* Compile with: gcc -o3 -o serial quicksort_serial.c */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
